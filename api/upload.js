@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import multer from 'multer';
 import nc from 'next-connect';
+import path from 'path';
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
