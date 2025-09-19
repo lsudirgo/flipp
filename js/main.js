@@ -1,5 +1,5 @@
 async function renderPdfFromServer(filename) {
-  const url = `/api/list-file/uploads/${filename}`;
+  const url = `api/list-file/uploads/${filename}`;
   try {
     showOverlay('Loading PDF dari server...');
     const res = await fetch(url);
@@ -15,7 +15,7 @@ async function renderPdfFromServer(filename) {
 
 // Load list files
 async function loadFileList() {
-  const res = await fetch('/api/list-file');
+  const res = await fetch('api/list-file');
   const data = await res.json();
   if (data.success) {
     const fileList = document.getElementById('fileList');
