@@ -35,12 +35,6 @@ async function loadFileList() {
           currentPdfUrl = `https://zsllvrkmsvvczmaevrws.supabase.co/storage/v1/object/public/Uploads/${f}`;
           try {
             await loadPDF(); // hanya load dokumen
-
-            if ($flipbook.data('turn')) {
-                $flipbook.turn('destroy').empty();  // destroy flipbook lama
-              }
-              createEmptyPages(pdfDoc.numPages);  
-            
             await init();    // init flipbook (destroy + create pages + render)
             // sync zoom scale (jika slider sudah diubah sebelumnya)
             applyZoom();
