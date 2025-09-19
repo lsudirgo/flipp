@@ -1,0 +1,232 @@
+/* latar belakang halaman */
+body {
+  margin: 0;
+  /* gradient turquoise */
+  background: linear-gradient(135deg, #00b0b0 0%, #007e7e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* optional: pattern halus */
+  background-image:
+    radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+/* kontainer flipbook */
+#flipbook {
+  width: 90vw;
+  height: 70vh;
+  max-width: 900px;
+  max-height: 600px;
+  position: relative;
+  background: #fdfdfd;
+  /* shadow luar flipbook */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+}
+
+#flipbook::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0));
+  pointer-events: none;
+}
+
+/* tiap halaman */
+#flipbook .page {
+  background: #ffffff;
+  border: 1px solid #eee;
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+  /* shadow kanan kiri tipis */
+  box-shadow: 
+    inset -4px 0 6px -4px rgba(0,0,0,0.1),
+    inset 4px 0 6px -4px rgba(0,0,0,0.1);
+}
+
+
+#flipbook .page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0));
+  pointer-events: none;
+}
+
+/* placeholder ketika loading */
+.page .placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #777;
+  font-family: sans-serif;
+}
+
+/* canvas halaman */
+.page canvas {
+  width: 100%;
+  height: auto; /* proporsional */
+  display: block;
+}
+
+/* efek melengkung/gradient di tepi halaman */
+#flipbook .page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right,
+              rgba(0, 0, 0, 0.08) 0%,
+              rgba(0, 0, 0, 0) 20%,
+              rgba(0, 0, 0, 0) 80%,
+              rgba(0, 0, 0, 0.08) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* overlay loading */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: #00b0b0; /* warna overlay */
+  display: flex;
+  flex-direction: column; /* supaya teks di bawah spinner */
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: 18px;
+  z-index: 9999;
+}
+
+/* spinner bulat */
+#overlay .spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid rgba(255,255,255,0.3);
+  border-top-color: #fff; /* warna bagian berputar */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px; /* jarak dengan teks */
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* progress bar atas */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: #fff;
+  z-index: 10000;
+}
+
+#bar {
+  height: 100%;
+  width: 0;
+  background: #f6ad3c;
+  transition: width 0.3s;
+}
+
+@media (max-width: 600px) {
+  #flipbook {
+    width: 95vw;
+    height: 65vh;
+  }
+  #overlay .spinner {
+    width: 40px;
+    height: 40px;
+    border-width: 4px;
+  }
+}
+
+.page canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+}
+
+/* Slider "silinder" */
+#zoomSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 220px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg,#4facfe,#00f2fe);
+  outline: none;
+}
+#zoomSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #4facfe;
+  cursor: pointer;
+}
+
+/* File tabs (pill style) */
+.file-tabs { display:flex; gap:8px; padding:8px 12px; }
+.file-tabs .file-item {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 2px solid #cbd8d8;
+  background: #fff;
+  color: #38393a;
+  font-weight:500;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: all .15s ease;
+}
+.file-tabs .file-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(20,114,184,0.12);
+}
+.file-tabs .file-item.active {
+  background: linear-gradient(90deg,#00b0b0,#00b0b0);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+}
+
+.page .skeleton {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #eee 25%,
+    #f5f5f5 50%,
+    #eee 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+

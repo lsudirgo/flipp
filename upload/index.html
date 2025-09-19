@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload PDF</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <h2>Upload PDF</h2>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" accept=".pdf"/>
+    <button type="submit">Upload</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const file = document.getElementById('fileInput').files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const res = await fetch('/api/uploads', { method: 'POST', body: formData });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    });
+  </script>
+</body>
+</html>
