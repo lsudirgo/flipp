@@ -35,6 +35,12 @@ async function loadFileList() {
           currentPdfUrl = `https://zsllvrkmsvvczmaevrws.supabase.co/storage/v1/object/public/Uploads/${f}`;
           try {
             await loadPDF(); // hanya load dokumen
+
+            if ($flipbook.data('turn')) {
+                $flipbook.turn('destroy').empty();  // destroy flipbook lama
+              }
+              createEmptyPages(pdfDoc.numPages);  
+            
             await init();    // init flipbook (destroy + create pages + render)
             // sync zoom scale (jika slider sudah diubah sebelumnya)
             applyZoom();
@@ -147,16 +153,18 @@ var h = window.innerHeight * 0.9;  // 90% tinggi layar
     elevation: 50,
     display: w < 768 ? 'single' : 'double',
     when: {
-      turning: function (event, page) {
-        renderPage(page);
-        renderPage(page + 1);
-        renderPage(page - 1);
-      },
-      turned: function (event, page) {
-        const progress = (page / pdfDoc.numPages) * 100;
-        $bar.css('width', progress + '%');
-      }
+     turning: function (event, page) {
+      if (!pdfDoc) return;
+      [page - 1, page, page + 1].forEach(p => {
+        if (p >= 1 && p <= pdfDoc.numPages) renderPage(p);
+      });
+    },
+    turned: function (event, page) {
+      if (!pdfDoc) return;
+      const progress = (page / pdfDoc.numPages) * 100;
+      $bar.css('width', progress + '%');
     }
+  }
   });
 
   renderPage(1);
@@ -282,6 +290,7 @@ $('#zoomOut').on?.('click', ()=>{
 
 
 init();
+$flipbook.turn('page', 1);
 loadFileList();
 
 
