@@ -273,7 +273,7 @@ async function loadFileList() {
         item.find('.btn-delete').on('click', async () => {
           if (confirm(`Hapus file ${f}?`)) {
             try {
-              const delRes = await fetch(`api/delete-file/${f}`, { method: 'DELETE' });
+              const delRes = await fetch(`api/delete-file?name=${f}`, { method: 'DELETE' });
               const delData = await delRes.json();
               if (delData.success) {
                 alert('File deleted');
@@ -331,6 +331,7 @@ $(window).on('resize', () => {
   $flipbook.turn('size', $('#flipbook-wrap').width(), $('#flipbook-wrap').height());
   $flipbook.turn('page', current);
 });
+
 
 
 
