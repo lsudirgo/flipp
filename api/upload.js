@@ -20,8 +20,8 @@ const handler = nc()
     try {
       if (!req.file) return res.status(400).json({ success: false, msg: 'No file uploaded' });
 
-      console.log('Env:', process.env.SUPABASE_URL, process.env.SUPABASE_KEY, process.env.SUPABASE_BUCKET);
-      console.log('File info:', req.file);
+      alert('Env:', process.env.SUPABASE_URL, process.env.SUPABASE_KEY, process.env.SUPABASE_BUCKET);
+      alert('File info:', req.file);
 
       const filename = generateFilename(req.file.originalname);
 
