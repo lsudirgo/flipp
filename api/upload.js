@@ -2,6 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import multer from 'multer';
 import nc from 'next-connect';
 import path from 'path';
+ alert('Env:', process.env.SUPABASE_URL, process.env.SUPABASE_KEY, process.env.SUPABASE_BUCKET);
+ alert('File info:', req.file);
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
@@ -20,8 +22,7 @@ const handler = nc()
     try {
       if (!req.file) return res.status(400).json({ success: false, msg: 'No file uploaded' });
 
-      alert('Env:', process.env.SUPABASE_URL, process.env.SUPABASE_KEY, process.env.SUPABASE_BUCKET);
-      alert('File info:', req.file);
+     
 
       const filename = generateFilename(req.file.originalname);
 
