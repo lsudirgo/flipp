@@ -16,7 +16,7 @@ let pageCache = {}; // simpan halaman yang sudah dirender
 
 async function loadFileList() {
   try {
-    const res = await fetch('api/list-file/files');
+    const res = await fetch('/api/list-file');
     const data = await res.json();
     $fileList.empty();
     if (data.success && data.files.length > 0) {
