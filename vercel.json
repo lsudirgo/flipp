@@ -11,6 +11,7 @@
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
     { "src": "/js/(.*)", "dest": "/js/$1" },
     { "src": "/upload", "dest": "/upload/index.html" },
+    { "src": "/upload/js/(.*)", "dest": "/upload/js/$1" },
     { "src": "/css/(.*)", "dest": "/css/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
