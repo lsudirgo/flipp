@@ -1,29 +1,71 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Upload PDF</title>
-  <link rel="stylesheet" href="../css/style.css">
+  <meta charset="utf-8" />
+  <title>Flipbook Upload</title>
+   <link rel="shortcut icon" type="image" href="favfog.ico">
+
+  <!-- jQuery -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="js/turn.min.js"></script>
+  <!-- pdf.js (render PDF to canvas) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <link rel="stylesheet" href="css/styleupload.css">
 </head>
 <body>
-  <h2>Upload PDF</h2>
-  <form id="uploadForm">
-    <input type="file" id="fileInput" accept=".pdf"/>
-    <button type="submit">Upload</button>
-  </form>
 
-  <script>
-    const form = document.getElementById('uploadForm');
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const file = document.getElementById('fileInput').files[0];
-      const formData = new FormData();
-      formData.append('file', file);
+  <!-- LEFT: Controls -->
+  <div class="left">
+    <div class="card">
+      <h2>Upload PDF</h2>
+      <label>Pilih file PDF</label>
+      <input id="pdfInput" type="file" accept="application/pdf" />
 
-      const res = await fetch('/api/uploads', { method: 'POST', body: formData });
-      const data = await res.json();
-      alert(JSON.stringify(data));
-    });
-  </script>
+      <div class="note">PDF akan di-render setiap halaman jadi canvas, lalu dimasukkan ke flipbook.</div>
+
+      <div style="height:8px"></div>
+    </div>
+
+    <div class="card">
+      <h2>List File</h2>
+      <div id="toclist" class="ttoclist"></div>
+    </div>
+
+    <div class="card">
+      <h2>Table of Contents (TOC)</h2>
+      <div id="toc" class="toc"></div>
+    </div>
+
+    <div class="card">
+      <h2>Status / Loading</h2>
+      <div id="statusText">Idle</div>
+      <div class="progress"><i id="progressBar"></i></div>
+    </div>
+  </div>
+
+  <!-- CENTER: Flipbook -->
+  <div class="center">
+    <div id="flipbook-wrap" class="card" style="position:relative;">
+      <div id="flipbook" class="flipbook"></div>
+
+      <div id="overlay" class="overlay">
+        <div class="spinner"></div>
+        <div id="overlayText">Loading...</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button id="prevBtn" class="btn" style="background:#555">Prev</button>
+      <button id="nextBtn" class="btn">Next</button>
+      <div style="width:16px"></div>
+      <label>Go to page:</label>
+      <input id="gotoInput" type="number" min="1" style="width:80px;padding:6px;border-radius:6px;border:1px solid #ccc" />
+      <button id="gotoBtn" class="btn" style="background:#2b6cff">Go</button>
+    </div>
+
+    <footer>Flipbook Uplaod</footer>
+  </div>
+
+ <script src="../src/upload.js"></script>
 </body>
 </html>
